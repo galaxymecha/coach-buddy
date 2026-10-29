@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coach Buddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout: one centred column, a quiet hex-pattern header, three sequenced stages, then plain rules and legal text. */
+  :root {
+    --ink: #010a13;
+    --panel: #0a1428;
+    --panel-2: #0d1b33;
+    --gold: #c8aa6e;
+    --gold-hi: #f0e6d2;
+    --teal: #0ac8b9;
+    --muted: #93a4b8;
+    --line: rgba(200, 170, 110, 0.35);
+    --display: "Cinzel", Georgia, "Times New Roman", serif;
+    --body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--ink); }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--gold-hi);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.6;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 40px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  a { color: var(--teal); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+
+  header { padding-block: 56px 40px; text-align: center; border-bottom: 1px solid var(--line); }
+  .rune { width: 56px; height: 56px; margin: 0 auto 14px; display: block; }
+  h1 { font-family: var(--display); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; font-size: clamp(30px, 6vw, 46px); margin: 0 0 6px; color: var(--gold-hi); text-wrap: balance; }
+  .tag { font-family: var(--display); letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-size: 14px; margin: 0 0 22px; }
+  .lede { max-width: 56ch; margin: 0 auto; font-size: 19px; color: var(--gold-hi); text-wrap: pretty; }
+
+  section { padding-block: 44px 8px; }
+  h2 { font-family: var(--display); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-size: 22px; color: var(--gold); margin: 0 0 18px; text-wrap: balance; }
+  p { margin: 0 0 14px; max-width: 68ch; text-wrap: pretty; }
+  .muted { color: var(--muted); }
+
+  .stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+  .stage { background: var(--panel); border: 1px solid var(--line); padding: 20px 18px 18px; min-width: 0; }
+  .stage .when { font-family: var(--display); letter-spacing: 0.12em; text-transform: uppercase; font-size: 13px; color: var(--teal); margin: 0 0 6px; }
+  .stage h3 { font-family: var(--display); font-weight: 600; font-size: 19px; margin: 0 0 10px; color: var(--gold-hi); }
+  .stage p { font-size: 16px; color: var(--muted); margin: 0; }
+  @media (max-width: 720px) { .stages { grid-template-columns: 1fr; } }
+
+  .never { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .never li { padding-left: 28px; position: relative; max-width: 68ch; }
+  .never li::before { content: ""; position: absolute; left: 4px; top: 0.62em; width: 10px; height: 2px; background: var(--gold); }
+
+  .cast { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+  .cast li { background: var(--panel-2); border: 1px solid var(--line); padding: 14px 16px; min-width: 0; }
+  .cast b { font-family: var(--display); font-weight: 600; letter-spacing: 0.06em; display: block; margin-bottom: 4px; }
+  .cast span { color: var(--muted); font-size: 15px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: baseline; }
+
+  dl { margin: 0; display: grid; gap: 14px; max-width: 68ch; }
+  dt { font-weight: 600; color: var(--gold-hi); }
+  dd { margin: 2px 0 0; color: var(--muted); }
+
+  footer { margin-top: 56px; padding-top: 26px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  footer p { max-width: 74ch; }
+  .copy { display: inline-flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  code { font-family: ui-monospace, "SF Mono", Consolas, monospace; background: var(--panel); border: 1px solid var(--line); padding: 2px 8px; font-size: 15px; color: var(--gold-hi); overflow-wrap: anywhere; }
+  button.cp { font: inherit; font-size: 14px; color: var(--gold-hi); background: transparent; border: 1px solid var(--line); padding: 3px 12px; cursor: pointer; }
+  button.cp:hover { border-color: var(--teal); color: var(--teal); }
+  @media (prefers-reduced-motion: no-preference) { button.cp { transition: color 0.15s, border-color 0.15s; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <svg class="rune" viewBox="0 0 56 56" role="img" aria-label="Coach Buddy emblem">
+      <path d="M28 3 51 15.5v25L28 53 5 40.5v-25z" fill="none" stroke="#c8aa6e" stroke-width="2.5"/>
+      <path d="M28 14 41 21.5v13L28 42 15 34.5v-13z" fill="none" stroke="#0ac8b9" stroke-width="2"/>
+      <circle cx="28" cy="28" r="3.5" fill="#c8aa6e"/>
+    </svg>
+    <h1>Coach Buddy</h1>
+    <p class="tag">Play first. Reflect later.</p>
+    <p class="lede">A friendly voice-and-character companion for League of Legends. It helps you scout before a game, cheers with you during it, and helps you learn from it afterwards.</p>
+  </header>
+
+  <section aria-labelledby="how">
+    <h2 id="how">How a game goes</h2>
+    <ol class="stages">
+      <li class="stage">
+        <p class="when">Loading screen</p>
+        <h3>Know your matchup</h3>
+        <p>Coach Buddy reads your lane opponent's public match history, such as the champion they play and their recent results. It also suggests a starter build plan based on the champions in the match.</p>
+      </li>
+      <li class="stage">
+        <p class="when">During the match</p>
+        <h3>Just good company</h3>
+        <p>It reacts to what you already see, like a kill or a dragon, with a cheer or a groan. No tips, no alerts, no analysis. Your game stays yours.</p>
+      </li>
+      <li class="stage">
+        <p class="when">After the match</p>
+        <h3>Reflect later</h3>
+        <p>A spoken and written review of your own game, with a few things to work on next time, so you can learn once the pressure is off.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="never">
+    <h2 id="never">What it never does</h2>
+    <ul class="never">
+      <li>It never tracks enemy cooldowns, summoner spells or ultimates, and it shows no timers.</li>
+      <li>It never reveals information the game hides from you.</li>
+      <li>It never tells you what to do in a live game, and it sends no power-spike alerts.</li>
+      <li>It never presses keys, clicks or changes your game inputs for you.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="cast">
+    <h2 id="cast">Pick your coach</h2>
+    <p>Choose a character and a voice. Every character is original to Coach Buddy, and you can change how each one looks.</p>
+    <ul class="cast">
+      <li><b><span class="dot" style="background:#7b3fa0"></span>Miro</b><span>A playful chibi imp with horns, wings and a tail.</span></li>
+      <li><b><span class="dot" style="background:#3ee8ff"></span>Mecha Buddy</b><span>A floating galactic robot with a glowing visor.</span></li>
+      <li><b><span class="dot" style="background:#f2c94c"></span>Aria</b><span>A blonde witch with a pointy hat and a magic staff.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="privacy">
+    <h2 id="privacy">Your data</h2>
+    <dl>
+      <dt>What stays on your PC</dt>
+      <dd>Your settings, your chosen character and your Riot ID are kept on your own computer.</dd>
+      <dt>What is sent out</dt>
+      <dd>To make Coach Buddy talk, the text of a reply and any short recording you make while holding the talk key are sent to AI services that write and speak the answer. Match data comes from Riot's own services. You do not create an account, and no passwords are collected.</dd>
+      <dt>Cost</dt>
+      <dd>Coach Buddy is free to use. Optional paid extras that cost us money to run, such as smoother voice lines, may be added in the future. The free version will stay available.</dd>
+    </dl>
+  </section>
+
+  <footer>
+    <p class="copy">Questions or feedback: <code id="mail">gamingalaxymecha@gmail.com</code> <button class="cp" id="cpbtn" type="button">Copy</button></p>
+    <p>Coach Buddy isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+  </footer>
+</div>
+
+<script>
+  document.getElementById("cpbtn").addEventListener("click", function () {
+    var btn = this, el = document.getElementById("mail");
+    function done() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1500); }
+    function pick() {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+    try { navigator.clipboard.writeText(el.textContent).then(done, pick); } catch (e) { pick(); }
+  });
+</script>
+
+</body>
+</html>
